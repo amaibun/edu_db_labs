@@ -7,10 +7,13 @@ footer: "ECL 2.0 Licensed | Copyright © [YYYY] [Your Name]"
 ---
 
 
-**Виконав(-ла):** 
+**Виконали:** 
 
-*студент(-ка) 2-го курсу, групи (шифр групи)*<span padding-right:5em></span> **[ім’я ПРІЗВИЩЕ] [Посилання email, tg, fb]**
+*студент 2-го курсу, групи ІО-35*<span padding-right:5em></span> **Нікіта Бєлік tg:@Amaama00**
 
+*студент 2-го курсу, групи ІО-35*<span padding-right:5em></span> **Владислав Сухомлін tg:@rgd006**
+
+*студент 2-го курсу, групи ІО-35*<span padding-right:5em></span> **Денис Перцов tg:@kepkaguess**
 
 **Керівник**
 
