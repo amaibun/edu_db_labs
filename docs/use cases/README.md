@@ -160,11 +160,6 @@ stop;
 @enduml
 ```
 
-[AddUser will be here]
-[UpdateUser will be here]
-[RemoveUser will be here]
-[AssignPermissions will be here]
-
 ### UploadDataSet
 | ID | Назва | Учасники | Передумови | Результат | Виключні ситуації | Основний сценарій |
 |:----|:------|:---------|:-----------|:---------|:------------------|:-----------------|
@@ -264,10 +259,6 @@ stop;
 @enduml
 ```
 
-[SearchDataSetswill be here]
-[FilterDataSets will be here]
-[ViewDataSetDetails will be here]
-
 ### DownloadDataSet
 | ID | Назва | Учасники | Передумови | Результат | Виключні ситуації | Основний сценарій |
 |:----|:------|:---------|:-----------|:---------|:------------------|:-----------------|
@@ -308,11 +299,17 @@ stop;
 | AddNewClient | Додавання нового клієнта | Administrator, Система | Користувач має права адміністратора або це автоматичний процес | Клієнт успішно доданий | Недійсні дані, клієнт вже існує | 1. Адміністратор відкриває форму додавання клієнта. 2. Вводить дані клієнта. 3. Підтверджує додавання. 4. Система створює нового користувача з роллю "Client". |
 
 @startuml
-|Administrator|
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
 start
 :ініціює створення клієнта;
 :вводить дані клієнта;
 :надсилає запит на створення;
+
+note right #d10000
+<b>Possible error:
+    - PermissionDeniedException
+end note
 
 |Система|
 :перевіряє валідність;
@@ -329,10 +326,16 @@ stop
 | DeleteClient | Видалення клієнта | Administrator, Система | Клієнт існує | Клієнта видалено | Клієнт не знайдений, недостатньо прав | 1. Адміністратор знаходить клієнта. 2. Вибирає опцію "Видалити". 3. Підтверджує видалення. 4. Система видаляє користувача з бази. |
 
 @startuml
-|Administrator|
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
 start
 :вибирає клієнта для видалення;
 :ініціює процес видалення;
+
+note right #d10000
+<b>Possible error:
+    - PermissionDeniedException
+end note
 
 |Система|
 :перевіряє наявність клієнта;
@@ -349,14 +352,20 @@ stop
 | AddNewAdministrator | Призначення нового адміністратора | Administrator | Користувач має роль "Client" | Користувач стає адміністратором | Недостатньо прав, користувач не знайдений | 1. Адміністратор знаходить клієнта. 2. Вибирає "Призначити адміністратором". 3. Система оновлює роль користувача. |
 
 @startuml
-|Administrator|
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
 start
 :вибирає користувача;
 :ініціює підвищення прав;
 
+note right #d10000
+<b>Possible error:
+    - PermissionDeniedException
+end note
+
 |Система|
 :перевіряє поточну роль користувача;
-:призначає роль Administrator;
+:призначає роль Адміністратор;
 stop
 @enduml
 
@@ -368,10 +377,16 @@ stop
 | AddNewContributer | Призначення нового контриб’ютора | Administrator, Система | Користувач має роль "Client" | Користувач стає контриб’ютором | Недостатньо прав, користувач не знайдений | 1. Адміністратор або система знаходить клієнта. 2. Вибирає "Призначити контриб’ютором". 3. Система оновлює роль користувача. |
 
 @startuml
-|Administrator|
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
 start
 :вибирає користувача;
 :ініціює надання ролі контриб'ютера;
+
+note right #d10000
+<b>Possible error:
+    - PermissionDeniedException
+end note
 
 |Система|
 :перевіряє поточну роль користувача;
@@ -387,10 +402,17 @@ stop
 | FindDataSet | Пошук датасетів | Усі актори | - | Список датасетів знайдено | Немає доступу, помилки з’єднання | 1. Користувач відкриває інтерфейс пошуку. 2. Вводить критерії. 3. Отримує результати пошуку. |
 
 @startuml
+skinparam ActivityBackgroundColor #f5f5f5
 |Користувач|
 start
 :вводить параметри пошуку;
 :ініціює пошук;
+
+note right #d10000
+<b>Possible error:
+    - DataSetNotFoundException
+    - InvalidDataException
+end note
 
 |Система|
 :виконує пошук по базі даних;
@@ -406,10 +428,17 @@ stop
 | FindClient | Пошук клієнта | Усі актори | - | Клієнт знайдений | Клієнт не знайдений | 1. Користувач відкриває інтерфейс пошуку користувачів. 2. Вводить ім’я або інші критерії. 3. Система повертає результат. |
 
 @startuml
+skinparam ActivityBackgroundColor #f5f5f5
 |Користувач|
 start
 :вводить ім’я або інші параметри клієнта;
 :ініціює пошук;
+
+note right #d10000
+<b>Possible error:
+    - DataSetNotFoundException
+    - InvalidDataException
+end note
 
 |Система|
 :виконує пошук клієнтів;
@@ -425,9 +454,16 @@ stop
 | FindContributer | Пошук контриб’ютора | Усі актори | - | Контриб’ютор знайдений | Користувача не знайдено | 1. Користувач вводить критерії пошуку. 2. Система повертає список відповідних користувачів з роллю "Contributor". |
 
 @startuml
+skinparam ActivityBackgroundColor #f5f5f5
 |Користувач|
 start
 :запитує список контриб'ютерів;
+
+note right #d10000
+<b>Possible error:
+    - DataSetNotFoundException
+    - InvalidDataException
+end note
 
 |Система|
 :фільтрує користувачів за роллю Data Contributor;
@@ -443,9 +479,16 @@ stop
 | FindAdministrator | Пошук адміністратора | Усі актори | - | Адміністратор знайдений | Користувача не знайдено | 1. Користувач шукає за роллю "Administrator". 2. Система повертає відповідних користувачів. |
 
 @startuml
+skinparam ActivityBackgroundColor #f5f5f5
 |Користувач|
 start
 :запитує список адміністраторів;
+
+note right #d10000
+<b>Possible error:
+    - InvalidDataException
+    - DataSetNotFoundException
+end note
 
 |Система|
 :фільтрує користувачів за роллю Administrator;
@@ -461,9 +504,16 @@ stop
 | FindValidatedDataSet | Пошук валідованих датасетів | Усі актори | - | Список валідованих датасетів знайдено | Немає валідованих даних, помилка фільтрації | 1. Користувач відкриває інтерфейс пошуку. 2. Встановлює фільтр "Валідовані". 3. Система повертає відповідні набори даних. |
 
 @startuml
+skinparam ActivityBackgroundColor #f5f5f5
 |Користувач|
 start
 :ініціює запит на валідовані набори даних;
+
+note right #d10000
+<b>Possible error:
+    - InvalidDataExpception
+    - DataSetNotFoundException
+end note
 
 |Система|
 :фільтрує набори даних за статусом "валідований";
