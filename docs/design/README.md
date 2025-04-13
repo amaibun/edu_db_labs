@@ -22,15 +22,32 @@
 @startuml
 title Business Entity Model: Open Data Management Service
 
+' Gruvbox Light theme visual tweaks
+skinparam style strictuml
+skinparam roundCorner 0
+skinparam shadowing false
+skinparam backgroundColor #fbf1c7
+skinparam classBackgroundColor #ebdbb2
+skinparam classBorderColor #d79921
+skinparam ClassAttributeFontColor #5a564a
+skinparam classBorderThickness 0
+skinparam classFontColor #61440e
+skinparam classFontSize 14
+skinparam classAttributeIconSize 0
+skinparam ArrowColor #5a564a
+skinparam ArrowFontColor #5a564a
+skinparam linetype ortho
+skinparam classHeaderBackgroundColor #d79921
+
 class Dataset {
-  +id: UUID
-  +title: String
-  +description: String
-  +createdAt: DateTime
-  +updatedAt: DateTime
-  +format: String
-  +license: String
-  +status: DatasetStatus
+  +**id**: UUID
+  +**title**: String
+  +**description**: String
+  +**createdAt**: DateTime
+  +**updatedAt**: DateTime
+  +**format**: String
+  +**license**: String
+  +**status**: DatasetStatus
 }
 
 enum DatasetStatus {
@@ -40,18 +57,18 @@ enum DatasetStatus {
 }
 
 class Organization {
-  +id: UUID
-  +name: String
-  +description: String
-  +contactEmail: String
-  +website: String
+  +**id**: UUID
+  +**name**: String
+  +**description**: String
+  +**contactEmail**: String
+  +**website**: String
 }
 
 class User {
-  +id: UUID
-  +username: String
-  +email: String
-  +role: UserRole
+  +**id**: UUID
+  +**username**: String
+  +**email**: String
+  +**role**: UserRole
 }
 
 enum UserRole {
@@ -61,30 +78,30 @@ enum UserRole {
 }
 
 class DataResource {
-  +id: UUID
-  +fileName: String
-  +fileType: String
-  +size: Integer
-  +url: String
-  +uploadedAt: DateTime
+  +**id**: UUID
+  +**fileName**: String
+  +**fileType**: String
+  +**size**: Integer
+  +**url**: String
+  +**uploadedAt**: DateTime
 }
 
 class Tag {
-  +id: UUID
-  +name: String
+  +**id**: UUID
+  +**name**: String
 }
 
 class Category {
-  +id: UUID
-  +name: String
+  +**id**: UUID
+  +**name**: String
 }
 
 class AccessLog {
-  +id: UUID
-  +userId: UUID
-  +datasetId: UUID
-  +accessedAt: DateTime
-  +action: String
+  +**id**: UUID
+  +**userId**: UUID
+  +**datasetId**: UUID
+  +**accessedAt**: DateTime
+  +**action**: String
 }
 
 Dataset "1" -- "1..*" DataResource : contains >
@@ -96,6 +113,7 @@ User "1" -- "0..*" AccessLog : has >
 Dataset "1" -- "0..*" AccessLog : accessed in >
 @enduml
 ```
+
 ![alt text](business_entity_model.png)
 
 ## ER-модель
@@ -105,6 +123,23 @@ Dataset "1" -- "0..*" AccessLog : accessed in >
 ```
 @startuml
 title ER Model - Open Data Management Service
+
+' Gruvbox Light theme visual tweaks
+skinparam style strictuml
+skinparam roundCorner 0
+skinparam shadowing false
+skinparam backgroundColor #fbf1c7
+skinparam classBackgroundColor #ebdbb2
+skinparam classBorderColor #d79921
+skinparam ClassAttributeFontColor #5a564a
+skinparam classBorderThickness 0
+skinparam classFontColor #61440e
+skinparam classFontSize 14
+skinparam classAttributeIconSize 0
+skinparam ArrowColor #5a564a
+skinparam ArrowFontColor #5a564a
+skinparam linetype ortho
+skinparam classHeaderBackgroundColor #d79921
 
 ' Enums
 enum DatasetStatus {
@@ -121,54 +156,54 @@ enum UserRole {
 
 ' Entities
 class Dataset {
-  +id: UUID
-  +title: String
-  +description: String
-  +createdAt: DateTime
-  +updatedAt: DateTime
-  +format: String
-  +license: String
-  +status: DatasetStatus
+  +**id**: UUID
+  +**title**: String
+  +**description**: String
+  +**createdAt**: DateTime
+  +**updatedAt**: DateTime
+  +**format**: String
+  +**license**: String
+  +**status**: DatasetStatus
 }
 
 class DataResource {
-  +id: UUID
-  +fileName: String
-  +fileType: String
-  +size: Integer
-  +url: String
-  +uploadedAt: DateTime
+  +**id**: UUID
+  +**fileName**: String
+  +**fileType**: String
+  +**size**: Integer
+  +**url**: String
+  +**uploadedAt**: DateTime
 }
 
 class Organization {
-  +id: UUID
-  +name: String
-  +description: String
-  +contactEmail: String
-  +website: String
+  +**id**: UUID
+  +**name**: String
+  +**description**: String
+  +**contactEmail**: String
+  +**website**: String
 }
 
 class User {
-  +id: UUID
-  +username: String
-  +email: String
-  +role: UserRole
+  +**id**: UUID
+  +**username**: String
+  +**email**: String
+  +**role**: UserRole
 }
 
 class Tag {
-  +id: UUID
-  +name: String
+  +**id**: UUID
+  +**name**: String
 }
 
 class Category {
-  +id: UUID
-  +name: String
+  +**id**: UUID
+  +**name**: String
 }
 
 class AccessLog {
-  +id: UUID
-  +accessedAt: DateTime
-  +action: String
+  +**id**: UUID
+  +**accessedAt**: DateTime
+  +**action**: String
 }
 
 ' Relationships
@@ -208,8 +243,6 @@ skinparam classAttributeIconSize 0
 skinparam ArrowColor #5a564a
 skinparam ArrowFontColor #5a564a
 skinparam linetype ortho
-
-' Add color to class headers
 skinparam classHeaderBackgroundColor #d79921
 
 ' ENUMS
