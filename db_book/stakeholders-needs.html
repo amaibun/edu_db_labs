@@ -1,0 +1,377 @@
+<!DOCTYPE HTML>
+<html lang="ua" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Запити зацікавлених осіб - db_book</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">db_book</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="Запити-зацікавлених-осіб"><a class="header" href="#Запити-зацікавлених-осіб">Запити зацікавлених осіб</a></h1>
+<h2 id="Вступ"><a class="header" href="#Вступ">Вступ</a></h2>
+<p>У цьому розділі розглядається, як формуються запити користувачів в інформаційних системах і яку роль вони відіграють у доступі до даних. Запити є ключовим інструментом для отримання інформації, необхідної для аналізу, управління та прийняття рішень.</p>
+<p>Ефективна робота з інформацією передбачає розуміння різних типів запитів, зокрема SQL-запитів, параметризованих запитів, API-запитів і методів фільтрації даних. У цьому розділі детально розглядаються основні підходи до їхнього створення та здійснюється їх порівняння на основі моделі FURPS, яка враховує функціональність, зручність, надійність, продуктивність і підтримку.</p>
+<h3 id="Мета"><a class="header" href="#Мета">Мета</a></h3>
+<p>Розробка системи, що дозволяє працювати з відкритими даними, включаючи їх отримання, збереження та оновлення.</p>
+<h3 id="Контекст"><a class="header" href="#Контекст">Контекст</a></h3>
+<p>Формування запитів зацікавлених сторін відіграє ключову роль у визначенні вимог до проєкту. Це сприяє спрощенню процесу проєктування, дозволяючи зосередитися на найбільш значущих аспектах для користувачів.</p>
+<p>У цьому документі викладені основні вимоги, які необхідно врахувати для реалізації найважливіших потреб, що стали підґрунтям для створення проєкту.</p>
+<h3 id="Основні-визначення-та-скорочення"><a class="header" href="#Основні-визначення-та-скорочення">Основні визначення та скорочення</a></h3>
+<p>FURPS — це модель класифікації атрибутів якості програмного забезпечення, яка охоплює функціональні та нефункціональні вимоги:</p>
+<ul>
+<li><strong>Functionality (функціональність)</strong> — охоплює можливості системи (різноманітність і загальність функцій), повторне використання (сумісність, портативність) і безпеку. Ці вимоги є ключовими та використовуються для побудови діаграм варіантів використання (Use Case Diagram).</li>
+<li><strong>Usability (зручність використання)</strong> — включає UX-аспекти: людський фактор, естетику, послідовність інтерфейсу та документацію.</li>
+<li><strong>Reliability (надійність)</strong> — визначає стабільність системи, частоту можливих збоїв, стійкість до відмов і здатність до відновлення.</li>
+<li><strong>Performance (продуктивність)</strong> — охоплює швидкість реакції, ефективність використання ресурсів (оперативна пам’ять, процесор), пропускну здатність і масштабованість.</li>
+<li><strong>Supportability (підтримуваність)</strong> — включає тестованість, гнучкість (можливість модифікацій, розширюваність), зручність встановлення та локалізацію.</li>
+</ul>
+<h3 id="Основні-поняття"><a class="header" href="#Основні-поняття">Основні поняття:</a></h3>
+<ul>
+<li><strong>Запит</strong> — формалізоване звернення до інформаційної системи для отримання або зміни даних.</li>
+<li><strong>SQL-запит</strong> — набір команд для взаємодії з реляційною базою даних (отримання, оновлення, видалення даних).</li>
+<li><strong>API-запит</strong> — запит до вебсервісу або зовнішньої системи через HTTP (GET, POST, PUT, DELETE).</li>
+<li><strong>Фільтрація даних</strong> — вибір потрібної інформації відповідно до заданих критеріїв.</li>
+<li><strong>Кешування запитів</strong> — збереження результатів запитів для прискорення доступу до даних.</li>
+<li><strong>GraphQL</strong> — мова запитів до API, що дозволяє отримувати лише необхідні дані.</li>
+<li><strong>REST API</strong> — архітектурний стиль для створення вебсервісів на основі стандартних HTTP-запитів.</li>
+<li><strong>ORM (Object-Relational Mapping)</strong> — технологія взаємодії з базами даних через об'єктно-орієнтоване програмування.</li>
+</ul>
+<h3 id="Методи-виконання-запитів-переваги-та-недоліки"><a class="header" href="#Методи-виконання-запитів-переваги-та-недоліки">Методи виконання запитів: переваги та недоліки</a></h3>
+<h4 id="Реляційні-запити-sql"><a class="header" href="#Реляційні-запити-sql"><strong>Реляційні запити (SQL)</strong></a></h4>
+<p><strong>Переваги:</strong></p>
+<ul>
+<li>Висока продуктивність при роботі зі структурованими даними.</li>
+<li>Уніфіковані механізми запитів і маніпулювання даними.</li>
+<li>Можливість виконання складного аналізу за допомогою JOIN, GROUP BY тощо.</li>
+</ul>
+<p><strong>Недоліки:</strong></p>
+<ul>
+<li>Вимагають чітко визначеної схеми бази даних.</li>
+<li>Виконання складних запитів може споживати значні ресурси.</li>
+</ul>
+<h4 id="Запити-через-api"><a class="header" href="#Запити-через-api"><strong>Запити через API</strong></a></h4>
+<p><strong>Переваги:</strong></p>
+<ul>
+<li>Гнучка взаємодія між різними системами.</li>
+<li>Підтримка різних форматів даних (JSON, XML).</li>
+<li>Добре масштабується для роботи з великою кількістю користувачів.</li>
+</ul>
+<p><strong>Недоліки:</strong></p>
+<ul>
+<li>Залежність від стабільності та доступності сторонніх сервісів.</li>
+<li>Можливі ризики через оновлення API.</li>
+</ul>
+<h4 id="Параметризовані-запити"><a class="header" href="#Параметризовані-запити"><strong>Параметризовані запити</strong></a></h4>
+<p><strong>Переваги:</strong></p>
+<ul>
+<li>Захист від SQL-ін’єкцій.</li>
+<li>Гнучке управління параметрами запиту.</li>
+</ul>
+<p><strong>Недоліки:</strong></p>
+<ul>
+<li>Потребує додаткової конфігурації та налаштувань безпеки.</li>
+</ul>
+<h4 id="Фільтрація-та-сортування-даних"><a class="header" href="#Фільтрація-та-сортування-даних"><strong>Фільтрація та сортування даних</strong></a></h4>
+<p><strong>Переваги:</strong></p>
+<ul>
+<li>Дозволяє швидко отримувати лише необхідну інформацію.</li>
+<li>Зменшує навантаження на систему, оптимізуючи виконання запитів.</li>
+</ul>
+<p><strong>Недоліки:</strong></p>
+<ul>
+<li>Реалізація може бути складною при роботі з великими обсягами даних.</li>
+</ul>
+<h3 id="Методи-оптимізації-запитів"><a class="header" href="#Методи-оптимізації-запитів"><strong>Методи оптимізації запитів</strong></a></h3>
+<ul>
+<li>Використання індексів для прискорення пошуку даних.</li>
+<li>Оптимізація запитів у масштабних базах даних.</li>
+<li>Кешування результатів для зменшення навантаження на сервер.</li>
+<li>Балансування навантаження між серверами.</li>
+<li>Використання NoSQL-баз для розподілених і масштабованих проєктів.</li>
+</ul>
+<h3 id="Порівняння-підходів-до-запитів-модель-furps"><a class="header" href="#Порівняння-підходів-до-запитів-модель-furps"><strong>Порівняння підходів до запитів (модель FURPS)</strong></a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Підхід</th><th>Функціональність</th><th>Зручність</th><th>Надійність</th><th>Продуктивність</th><th>Підтримка</th></tr></thead><tbody>
+<tr><td><strong>SQL-запити</strong></td><td>Висока</td><td>Середня</td><td>Висока</td><td>Висока</td><td>Документовані механізми</td></tr>
+<tr><td><strong>API-запити</strong></td><td>Висока</td><td>Висока</td><td>Висока</td><td>Залежить від сервера</td><td>Підтримка API-провайдерів</td></tr>
+<tr><td><strong>Параметризовані запити</strong></td><td>Висока</td><td>Висока</td><td>Дуже висока</td><td>Висока</td><td>Доступність стандартних методів</td></tr>
+<tr><td><strong>Кешування запитів</strong></td><td>Динамічна</td><td>Середня</td><td>Висока</td><td>Дуже висока</td><td>Потребує додаткового налаштування</td></tr>
+</tbody></table>
+</div>
+<h2 id="Короткий-зміст"><a class="header" href="#Короткий-зміст">Короткий зміст</a></h2>
+<p><em>[Розділ містить опис того, про що йдеться в еій частині цього документу, що залишилася.
+Також тут описана структура документу.]</em></p>
+<h2 id="Характеристика-ділових-процесів"><a class="header" href="#Характеристика-ділових-процесів">Характеристика ділових процесів</a></h2>
+<p>Характеристика ділових процесів</p>
+<p>Ефективне управління проектом передбачає чітке розмежування внутрішніх і зовнішніх факторів, що впливають на його функціонування. Відповідно, зовнішні чинники представлені бізнес-акторами, а внутрішні – бізнес-робітниками.
+Бізнес-актори:</p>
+<pre><code>Користувач – фізична особа, що взаємодіє з системою.
+
+Оновлення інформації – процес, що потребує внесення актуальних змін у дані проекту.
+
+Адміністратор – особа, відповідальна за підтримку та оновлення інформації.
+</code></pre>
+<p>Бізнес-робітники:</p>
+<pre><code>Розробники – технічні спеціалісти, які забезпечують роботу системи та контролюють зміни в базі даних.
+</code></pre>
+<h2 id="Короткий-огляд-продукту"><a class="header" href="#Короткий-огляд-продукту">Короткий огляд продукту</a></h2>
+<p>Опис системи</p>
+<p>Система призначена для роботи з базою відкритих даних, надаючи користувачам можливість переглядати всю наявну інформацію та отримувати конкретні дані за запитом. Користувачами є будь-які особи, що шукають необхідну інформацію.
+Функціональність</p>
+<pre><code>Забезпечення швидкого та стабільного доступу до інформації.
+
+Гарантування актуальності даних, що містяться в базі.
+
+Надання даних користувачам у зручному вигляді.
+</code></pre>
+<p>Практичність</p>
+<pre><code>Інтерфейс, що відрізняється зручністю та інтуїтивною зрозумілістю.
+
+Чітке і зрозуміле відображення даних користувачам.
+
+Інформація, що надається, є перевіреною та актуальною.
+</code></pre>
+<p>Надійність</p>
+<pre><code>Перевірка даних на достовірність для забезпечення точності.
+
+Впровадження обмежень на зміну даних без попередньої перевірки.
+</code></pre>
+<p>Продуктивність</p>
+<pre><code>Оптимізація процесу отримання необхідної інформації.
+
+Автоматизація процесів перевірки та оновлення даних для підвищення ефективності.
+</code></pre>
+<p>Експлуатаційна придатність</p>
+<pre><code>Актуалізація даних забезпечує їхню сучасність та запобігає використанню застарілої інформації.
+
+Оптимізована система дозволяє ефективно отримувати потрібні дані.
+
+Процес перевірки даних дає впевненість у їхній достовірності.
+</code></pre>
+<p>Такий підхід дозволяє забезпечити ефективну роботу системи, що сприяє наданню користувачам тільки актуальної та достовірної інформації.</p>
+<h2 id="Висновки"><a class="header" href="#Висновки">Висновки</a></h2>
+<p>Процес формування запитів є важливим елементом інформаційних систем і потребує ретельного вибору методів отримання даних. Для ефективного управління інформацією доцільно використовувати комбінацію різних підходів: SQL-запити для складних запитів, API-запити для інтеграції з зовнішніми системами, а також кешування для оптимізації продуктивності. Останній вибір методу залежить від таких факторів, як вимоги до швидкості, безпеки та доступності даних.</p>
+<h3 id="Посилання"><a class="header" href="#Посилання">Посилання</a></h3>
+<ol>
+<li>C.J. Date. <em>An Introduction to Database Systems</em>, 8th Edition, Addison-Wesley, 2003. (Розділ 3: SQL і його структура)</li>
+<li>Fielding R. <em>Architectural Styles and the Design of Network-based Software Architectures</em>, 2000. (Розділ 5: REST API)</li>
+<li><em>GraphQL Documentation</em>. Розділ: Queries and Mutations.</li>
+<li>Markus Winand. <em>SQL Performance Explained</em>, 2012. (Глава 4: Індекси та оптимізація запитів)</li>
+<li><em>Google Developers: HTTP Caching</em>. Розділ: Основи кешування HTTP.
+Ось перефразований варіант вашого тексту:</li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="state-of-the-art.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="use_cases.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="state-of-the-art.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="use_cases.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

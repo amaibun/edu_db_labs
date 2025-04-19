@@ -1,0 +1,1236 @@
+<!DOCTYPE HTML>
+<html lang="ua" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>db_book</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">db_book</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="Вступ"><a class="header" href="#Вступ">Вступ</a></h1>
+<p>У вступі описується мета роботи і розглядається поставлене завдання з позиції її
+актуальності, значення її розв’язання для тієї предметної області, до якої відноситься
+тема бакалаврського проєкту.</p>
+<p>Коротко характеризується сучасний рівень розв’язання
+даного завдання і взаємозв’язок з іншими проєктами по цій тематиці.</p>
+<p>Наводяться
+основні технічні характеристики розробки й очікуваний технічно-економічний ефект
+від її реалізації.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Розроблення-загальних-вимог-до-системи"><a class="header" href="#Розроблення-загальних-вимог-до-системи">Розроблення загальних вимог до системи</a></h1>
+<ul>
+<li><a href="/requirements/state-of-the-art.html">Аналіз предметної області</a></li>
+<li><a href="/requirements/stakeholders-needs.html">Запити зацікавлених осіб</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Аналіз-предметної-області"><a class="header" href="#Аналіз-предметної-області">Аналіз предметної області</a></h1>
+<h2 id="Вступ-1"><a class="header" href="#Вступ-1">Вступ</a></h2>
+<p>Системи управління відкритими даними - це спеціалізовані системи, призначені для керування, зберігання та надання доступу до відкритих даних. Відкриті дані - це дані, які можуть бути вільно використані, поширені та модифіковані будь-ким.</p>
+<h2 id="Основні-визначення"><a class="header" href="#Основні-визначення">Основні визначення</a></h2>
+<ol>
+<li><strong>RDBMS (Relational Database Management System)</strong> - це тип бази даних, який використовує реляційну модель даних.
+Реляційна модель даних заснована на концепції таблиць, рядків і стовпців, де дані організовані у вигляді таблиць з визначеними стовпцями і рядками. RDBMS забезпечує можливість виконання запитів SQL (Structured Query Language) для маніпуляції даними.</li>
+<li><strong>NoSQL</strong> - це тип бази даних, який не використовує традиційну реляційну модель даних.
+NoSQL бази даних розроблені для обробки великих обсягів даних і забезпечують гібридну модель зберігання даних, яка може включати ключ-значення, документи, графові дані тощо.</li>
+<li><strong>Графові бази даних</strong> - це тип бази даних, який використовує графову модель даних.
+Графова модель даних заснована на концепції вузлів (або об'єктів) і ребер (або зв'язків) між ними. Графові бази даних розроблені для зберігання і обробки даних, які мають складну структуру зв'язків, наприклад, соціальні мережі, рекомендаційні системи тощо.</li>
+</ol>
+<h2 id="Підходи-та-способи-вирішення-завдання"><a class="header" href="#Підходи-та-способи-вирішення-завдання">Підходи та способи вирішення завдання</a></h2>
+<h3 id="Підходи"><a class="header" href="#Підходи">Підходи</a></h3>
+<p><strong>Централізований підхід:</strong> цей підхід передбачає створення централізованої системи управління відкритими даними, яка зберігає та керує всіма даними в одному місці.</p>
+<p><strong>Децентралізований підхід:</strong> цей підхід передбачає створення децентралізованої системи управління відкритими даними, яка складається з декількох незалежних вузлів, які зберігають та керують даними окремо.</p>
+<p><strong>Гібридний підхід:</strong> цей підхід поєднує централізований та децентралізований підходи, створюючи систему управління відкритими даними, яка складається з централізованого вузла та декількох децентралізованих вузлів.</p>
+<h3 id="Методи-зберігання-і-управління-даними"><a class="header" href="#Методи-зберігання-і-управління-даними">Методи зберігання і управління даними</a></h3>
+<p><strong>Бази даних:</strong> відносно структуровані дані зберігаються у базах даних, таких як реляційні бази даних (RDBMS), NoSQL-бази даних, графові бази даних тощо.</p>
+<p><strong>Файлові системи:</strong> дані зберігаються у файлах на диску, таких як текстові файли, зображення, відео тощо.</p>
+<p><strong>Об'єктні сховища:</strong> дані зберігаються у вигляді об'єктів, таких як об'єктні бази даних, сховища даних у хмарі тощо.</p>
+<p><strong>Блокчейн:</strong> дані зберігаються у вигляді блоків, які пов'язані між собою за допомогою криптографічних алгоритмів.</p>
+<h2 id="Порівняльна-характеристика-існуючих-засобів-вирішення-завдання"><a class="header" href="#Порівняльна-характеристика-існуючих-засобів-вирішення-завдання">Порівняльна характеристика існуючих засобів вирішення завдання</a></h2>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Functionality</th><th>Usability</th><th>Reliability</th><th>Perfomance</th><th>Supportability</th></tr></thead><tbody>
+<tr><td>CKAN</td><td>підтримка різних форматів даних, пошук, фільтрація</td><td>інтуїтивний інтерфейс, але деякі функції можуть бути складними для використання</td><td>стабільна робота, мінімум помилок</td><td>швидкий доступ до даних, але деякі операції можуть бути повільними</td><td>документація, форуми, підтримка спільноти</td></tr>
+<tr><td>DKAN</td><td>підтримка різних форматів даних, пошук, фільтрація, візуалізація даних</td><td>інтуїтивний інтерфейс, але деякі функції можуть бути складними для використання</td><td>стабільна робота, мінімум помилок</td><td>швидкий доступ до даних, швидка візуалізація даних</td><td>документація, форуми, підтримка спільноти, підтримка розробників</td></tr>
+<tr><td>Data.gov</td><td>підтримка різних форматів даних, пошук, фільтрація, візуалізація даних</td><td>інтуїтивний інтерфейс, але деякі функції можуть бути складними для використання</td><td>стабільна робота, мінімум помилок</td><td>швидкий доступ до даних, швидка візуалізація даних</td><td>окументація, форуми, підтримка спільноти, підтримка розробників</td></tr>
+</tbody></table>
+</div>
+<h2 id="Висновки"><a class="header" href="#Висновки">Висновки</a></h2>
+<p>У цьому огляді різних систем управління відкритими даними, включаючи CKAN, DKAN, Data.gov було розглянуто їхні переваги і недоліки. Кожна система пропонує широкий спектр функцій для роботи з даними, включаючи пошук, фільтрацію, візуалізацію та інше.</p>
+<p>Жодна система не є ідеальною і кожна має свої недоліки. Наприклад, CKAN і DKAN мають обмеження щодо кількості даних, які можуть бути оброблені, тоді як Data.gov має складніший інтерфейс, який може бути складними для використання для тих, хто не має досвіду роботи з відкритими даними.</p>
+<p>Враховуючи ці недоліки, було прийнято рішення про розробку власної системи управління відкритими даними, яка б поєднувала найкращі функції існуючих систем і не мала їхніх обмежень.</p>
+<h2 id="Посилання"><a class="header" href="#Посилання">Посилання</a></h2>
+<ol>
+<li><a href="https://ckan.org/">CKAN</a></li>
+<li><a href="https://www.drupal.org/project/dkan/">DKAN</a></li>
+<li><a href="https://data.gov/">Data.gov</a></li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Запити-зацікавлених-осіб"><a class="header" href="#Запити-зацікавлених-осіб">Запити зацікавлених осіб</a></h1>
+<h2 id="Вступ-2"><a class="header" href="#Вступ-2">Вступ</a></h2>
+<p>У цьому розділі розглядається, як формуються запити користувачів в інформаційних системах і яку роль вони відіграють у доступі до даних. Запити є ключовим інструментом для отримання інформації, необхідної для аналізу, управління та прийняття рішень.</p>
+<p>Ефективна робота з інформацією передбачає розуміння різних типів запитів, зокрема SQL-запитів, параметризованих запитів, API-запитів і методів фільтрації даних. У цьому розділі детально розглядаються основні підходи до їхнього створення та здійснюється їх порівняння на основі моделі FURPS, яка враховує функціональність, зручність, надійність, продуктивність і підтримку.</p>
+<h3 id="Мета"><a class="header" href="#Мета">Мета</a></h3>
+<p>Розробка системи, що дозволяє працювати з відкритими даними, включаючи їх отримання, збереження та оновлення.</p>
+<h3 id="Контекст"><a class="header" href="#Контекст">Контекст</a></h3>
+<p>Формування запитів зацікавлених сторін відіграє ключову роль у визначенні вимог до проєкту. Це сприяє спрощенню процесу проєктування, дозволяючи зосередитися на найбільш значущих аспектах для користувачів.</p>
+<p>У цьому документі викладені основні вимоги, які необхідно врахувати для реалізації найважливіших потреб, що стали підґрунтям для створення проєкту.</p>
+<h3 id="Основні-визначення-та-скорочення"><a class="header" href="#Основні-визначення-та-скорочення">Основні визначення та скорочення</a></h3>
+<p>FURPS — це модель класифікації атрибутів якості програмного забезпечення, яка охоплює функціональні та нефункціональні вимоги:</p>
+<ul>
+<li><strong>Functionality (функціональність)</strong> — охоплює можливості системи (різноманітність і загальність функцій), повторне використання (сумісність, портативність) і безпеку. Ці вимоги є ключовими та використовуються для побудови діаграм варіантів використання (Use Case Diagram).</li>
+<li><strong>Usability (зручність використання)</strong> — включає UX-аспекти: людський фактор, естетику, послідовність інтерфейсу та документацію.</li>
+<li><strong>Reliability (надійність)</strong> — визначає стабільність системи, частоту можливих збоїв, стійкість до відмов і здатність до відновлення.</li>
+<li><strong>Performance (продуктивність)</strong> — охоплює швидкість реакції, ефективність використання ресурсів (оперативна пам’ять, процесор), пропускну здатність і масштабованість.</li>
+<li><strong>Supportability (підтримуваність)</strong> — включає тестованість, гнучкість (можливість модифікацій, розширюваність), зручність встановлення та локалізацію.</li>
+</ul>
+<h3 id="Основні-поняття"><a class="header" href="#Основні-поняття">Основні поняття:</a></h3>
+<ul>
+<li><strong>Запит</strong> — формалізоване звернення до інформаційної системи для отримання або зміни даних.</li>
+<li><strong>SQL-запит</strong> — набір команд для взаємодії з реляційною базою даних (отримання, оновлення, видалення даних).</li>
+<li><strong>API-запит</strong> — запит до вебсервісу або зовнішньої системи через HTTP (GET, POST, PUT, DELETE).</li>
+<li><strong>Фільтрація даних</strong> — вибір потрібної інформації відповідно до заданих критеріїв.</li>
+<li><strong>Кешування запитів</strong> — збереження результатів запитів для прискорення доступу до даних.</li>
+<li><strong>GraphQL</strong> — мова запитів до API, що дозволяє отримувати лише необхідні дані.</li>
+<li><strong>REST API</strong> — архітектурний стиль для створення вебсервісів на основі стандартних HTTP-запитів.</li>
+<li><strong>ORM (Object-Relational Mapping)</strong> — технологія взаємодії з базами даних через об'єктно-орієнтоване програмування.</li>
+</ul>
+<h3 id="Методи-виконання-запитів-переваги-та-недоліки"><a class="header" href="#Методи-виконання-запитів-переваги-та-недоліки">Методи виконання запитів: переваги та недоліки</a></h3>
+<h4 id="Реляційні-запити-sql"><a class="header" href="#Реляційні-запити-sql"><strong>Реляційні запити (SQL)</strong></a></h4>
+<p><strong>Переваги:</strong></p>
+<ul>
+<li>Висока продуктивність при роботі зі структурованими даними.</li>
+<li>Уніфіковані механізми запитів і маніпулювання даними.</li>
+<li>Можливість виконання складного аналізу за допомогою JOIN, GROUP BY тощо.</li>
+</ul>
+<p><strong>Недоліки:</strong></p>
+<ul>
+<li>Вимагають чітко визначеної схеми бази даних.</li>
+<li>Виконання складних запитів може споживати значні ресурси.</li>
+</ul>
+<h4 id="Запити-через-api"><a class="header" href="#Запити-через-api"><strong>Запити через API</strong></a></h4>
+<p><strong>Переваги:</strong></p>
+<ul>
+<li>Гнучка взаємодія між різними системами.</li>
+<li>Підтримка різних форматів даних (JSON, XML).</li>
+<li>Добре масштабується для роботи з великою кількістю користувачів.</li>
+</ul>
+<p><strong>Недоліки:</strong></p>
+<ul>
+<li>Залежність від стабільності та доступності сторонніх сервісів.</li>
+<li>Можливі ризики через оновлення API.</li>
+</ul>
+<h4 id="Параметризовані-запити"><a class="header" href="#Параметризовані-запити"><strong>Параметризовані запити</strong></a></h4>
+<p><strong>Переваги:</strong></p>
+<ul>
+<li>Захист від SQL-ін’єкцій.</li>
+<li>Гнучке управління параметрами запиту.</li>
+</ul>
+<p><strong>Недоліки:</strong></p>
+<ul>
+<li>Потребує додаткової конфігурації та налаштувань безпеки.</li>
+</ul>
+<h4 id="Фільтрація-та-сортування-даних"><a class="header" href="#Фільтрація-та-сортування-даних"><strong>Фільтрація та сортування даних</strong></a></h4>
+<p><strong>Переваги:</strong></p>
+<ul>
+<li>Дозволяє швидко отримувати лише необхідну інформацію.</li>
+<li>Зменшує навантаження на систему, оптимізуючи виконання запитів.</li>
+</ul>
+<p><strong>Недоліки:</strong></p>
+<ul>
+<li>Реалізація може бути складною при роботі з великими обсягами даних.</li>
+</ul>
+<h3 id="Методи-оптимізації-запитів"><a class="header" href="#Методи-оптимізації-запитів"><strong>Методи оптимізації запитів</strong></a></h3>
+<ul>
+<li>Використання індексів для прискорення пошуку даних.</li>
+<li>Оптимізація запитів у масштабних базах даних.</li>
+<li>Кешування результатів для зменшення навантаження на сервер.</li>
+<li>Балансування навантаження між серверами.</li>
+<li>Використання NoSQL-баз для розподілених і масштабованих проєктів.</li>
+</ul>
+<h3 id="Порівняння-підходів-до-запитів-модель-furps"><a class="header" href="#Порівняння-підходів-до-запитів-модель-furps"><strong>Порівняння підходів до запитів (модель FURPS)</strong></a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Підхід</th><th>Функціональність</th><th>Зручність</th><th>Надійність</th><th>Продуктивність</th><th>Підтримка</th></tr></thead><tbody>
+<tr><td><strong>SQL-запити</strong></td><td>Висока</td><td>Середня</td><td>Висока</td><td>Висока</td><td>Документовані механізми</td></tr>
+<tr><td><strong>API-запити</strong></td><td>Висока</td><td>Висока</td><td>Висока</td><td>Залежить від сервера</td><td>Підтримка API-провайдерів</td></tr>
+<tr><td><strong>Параметризовані запити</strong></td><td>Висока</td><td>Висока</td><td>Дуже висока</td><td>Висока</td><td>Доступність стандартних методів</td></tr>
+<tr><td><strong>Кешування запитів</strong></td><td>Динамічна</td><td>Середня</td><td>Висока</td><td>Дуже висока</td><td>Потребує додаткового налаштування</td></tr>
+</tbody></table>
+</div>
+<h2 id="Короткий-зміст"><a class="header" href="#Короткий-зміст">Короткий зміст</a></h2>
+<p><em>[Розділ містить опис того, про що йдеться в еій частині цього документу, що залишилася.
+Також тут описана структура документу.]</em></p>
+<h2 id="Характеристика-ділових-процесів"><a class="header" href="#Характеристика-ділових-процесів">Характеристика ділових процесів</a></h2>
+<p>Характеристика ділових процесів</p>
+<p>Ефективне управління проектом передбачає чітке розмежування внутрішніх і зовнішніх факторів, що впливають на його функціонування. Відповідно, зовнішні чинники представлені бізнес-акторами, а внутрішні – бізнес-робітниками.
+Бізнес-актори:</p>
+<pre><code>Користувач – фізична особа, що взаємодіє з системою.
+
+Оновлення інформації – процес, що потребує внесення актуальних змін у дані проекту.
+
+Адміністратор – особа, відповідальна за підтримку та оновлення інформації.
+</code></pre>
+<p>Бізнес-робітники:</p>
+<pre><code>Розробники – технічні спеціалісти, які забезпечують роботу системи та контролюють зміни в базі даних.
+</code></pre>
+<h2 id="Короткий-огляд-продукту"><a class="header" href="#Короткий-огляд-продукту">Короткий огляд продукту</a></h2>
+<p>Опис системи</p>
+<p>Система призначена для роботи з базою відкритих даних, надаючи користувачам можливість переглядати всю наявну інформацію та отримувати конкретні дані за запитом. Користувачами є будь-які особи, що шукають необхідну інформацію.
+Функціональність</p>
+<pre><code>Забезпечення швидкого та стабільного доступу до інформації.
+
+Гарантування актуальності даних, що містяться в базі.
+
+Надання даних користувачам у зручному вигляді.
+</code></pre>
+<p>Практичність</p>
+<pre><code>Інтерфейс, що відрізняється зручністю та інтуїтивною зрозумілістю.
+
+Чітке і зрозуміле відображення даних користувачам.
+
+Інформація, що надається, є перевіреною та актуальною.
+</code></pre>
+<p>Надійність</p>
+<pre><code>Перевірка даних на достовірність для забезпечення точності.
+
+Впровадження обмежень на зміну даних без попередньої перевірки.
+</code></pre>
+<p>Продуктивність</p>
+<pre><code>Оптимізація процесу отримання необхідної інформації.
+
+Автоматизація процесів перевірки та оновлення даних для підвищення ефективності.
+</code></pre>
+<p>Експлуатаційна придатність</p>
+<pre><code>Актуалізація даних забезпечує їхню сучасність та запобігає використанню застарілої інформації.
+
+Оптимізована система дозволяє ефективно отримувати потрібні дані.
+
+Процес перевірки даних дає впевненість у їхній достовірності.
+</code></pre>
+<p>Такий підхід дозволяє забезпечити ефективну роботу системи, що сприяє наданню користувачам тільки актуальної та достовірної інформації.</p>
+<h2 id="Висновки-1"><a class="header" href="#Висновки-1">Висновки</a></h2>
+<p>Процес формування запитів є важливим елементом інформаційних систем і потребує ретельного вибору методів отримання даних. Для ефективного управління інформацією доцільно використовувати комбінацію різних підходів: SQL-запити для складних запитів, API-запити для інтеграції з зовнішніми системами, а також кешування для оптимізації продуктивності. Останній вибір методу залежить від таких факторів, як вимоги до швидкості, безпеки та доступності даних.</p>
+<h3 id="Посилання-1"><a class="header" href="#Посилання-1">Посилання</a></h3>
+<ol>
+<li>C.J. Date. <em>An Introduction to Database Systems</em>, 8th Edition, Addison-Wesley, 2003. (Розділ 3: SQL і його структура)</li>
+<li>Fielding R. <em>Architectural Styles and the Design of Network-based Software Architectures</em>, 2000. (Розділ 5: REST API)</li>
+<li><em>GraphQL Documentation</em>. Розділ: Queries and Mutations.</li>
+<li>Markus Winand. <em>SQL Performance Explained</em>, 2012. (Глава 4: Індекси та оптимізація запитів)</li>
+<li><em>Google Developers: HTTP Caching</em>. Розділ: Основи кешування HTTP.
+Ось перефразований варіант вашого тексту:</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Модель-прецедентів"><a class="header" href="#Модель-прецедентів">Модель прецедентів</a></h1>
+<h2 id="Загальна-схема"><a class="header" href="#Загальна-схема">Загальна схема</a></h2>
+<pre><code>@startuml
+
+    actor Expert
+    actor Client
+
+    usecase "UserManageAccount\nВзаємодія з\nобліковим записом" as UInteraction
+    usecase "SurveyInteraction\nВзаємодія з опитуванням" as EInteraction
+    usecase "SurveyCreate\nСтворити\nопитування" as SCreate
+    usecase "SurveyDelete\nВидалити\nопитування" as SDelete
+    usecase "SurveyManageResults\nВзаємодія\nз результатами" as SResults
+    usecase "SurveyShareAccess\nПоділитись\nопитуванням" as SShare
+    usecase "SurveyUpdate\nОновлення опитування" as SUpdate
+
+    Expert -d-|&gt; Client
+    Expert -&gt; EInteraction
+    Client -u-&gt; SResults
+    Client -r-&gt; SCreate
+    Client -d-&gt; UInteraction
+    Client -d-&gt; SDelete
+    Client -d-&gt; SUpdate
+    Client -l-&gt; SShare
+
+@enduml
+</code></pre>
+<h2 id="Сценарії-використання"><a class="header" href="#Сценарії-використання">Сценарії використання</a></h2>
+<h3 id="createdataset"><a class="header" href="#createdataset">CreateDataSet</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">CreateDataSet</td><td style="text-align: left">Створення набору даних</td><td style="text-align: left">Data Administrator</td><td style="text-align: left">None</td><td style="text-align: left">Новий набір даних створено</td><td style="text-align: left">Недійсні дані, дублікат набору даних</td><td style="text-align: left">1. Data Administrator логіниться, 2. натискає "Створити набір даних", 3. вводить дані про набір даних, 4. натискає "Зберегти"</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+    skinparam ActivityBackgroundColor #f5f5f5
+
+    |Користувач|
+    start
+    :відкриває інтерфейс створення набору даних;
+    :вводить метадані набору даних;
+    :вибирає файл для завантаження;
+    :відправляє запит на збереження;
+    note right #d10000
+    &lt;b&gt;Possible error:
+        - InvalidDataException
+        - FileUploadException
+    end note
+
+    |Система|
+    :перевіряє формат та цілісність даних;
+    :зберігає набір даних у базі даних;
+    :публікує набір даних для доступу користувачів;
+
+    |Користувач|
+    stop;
+
+@enduml
+</code></pre>
+<h3 id="updatedataset"><a class="header" href="#updatedataset">UpdateDataSet</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">UpdateDataSet</td><td style="text-align: left">Оновлення набору даних</td><td style="text-align: left">Data Administrator</td><td style="text-align: left">Набір даних існує</td><td style="text-align: left">Набір даних оновлено</td><td style="text-align: left">Недійсні дані, набір даних не знайдено</td><td style="text-align: left">1. Data Administrator логіниться, 2. шукає набір даних, 3. натискає "Оновити", 4. вводить оновлені дані, 5. натискає "Зберегти"</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+
+|Користувач|
+start
+:відкриває інтерфейс оновлення набору даних;
+:вводить оновлені метадані;
+:вибирає файл для оновлення;
+:відправляє запит на оновлення;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - InvalidDataException
+    - FileUploadException
+end note
+
+|Система|
+:перевіряє формат та цілісність даних;
+:оновлює набір даних у базі даних;
+:публікує оновлений набір даних;
+
+|Користувач|
+stop;
+@enduml
+</code></pre>
+<h3 id="deletedataset"><a class="header" href="#deletedataset">DeleteDataSet</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">DeleteDataSet</td><td style="text-align: left">Видалення набору даних</td><td style="text-align: left">Data Administrator</td><td style="text-align: left">Набір даних існує</td><td style="text-align: left">Набір даних видалено</td><td style="text-align: left">Набір даних не знайдено, набір даних використовується</td><td style="text-align: left">1. Data Administrator логіниться, 2. шукає набір даних, 3. натискає "Видалити", 4. підтверджує видалення</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+
+|Користувач|
+start
+:відкриває інтерфейс керування наборами даних;
+:вибирає набір даних для видалення;
+:відправляє запит на видалення;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - DataSetNotFoundException
+    - PermissionDeniedException
+end note
+
+|Система|
+:перевіряє наявність набору даних;
+:перевіряє права доступу;
+:видаляє набір даних із бази;
+:оновлює доступні набори даних;
+
+|Користувач|
+stop;
+@enduml
+</code></pre>
+<h3 id="viewdataset"><a class="header" href="#viewdataset">ViewDataSet</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">ViewDataSet</td><td style="text-align: left">Перегляд набору даних</td><td style="text-align: left">Data Administrator, Data Consumer</td><td style="text-align: left">Набір даних існує</td><td style="text-align: left">Дані про набір даних відображаються</td><td style="text-align: left">Набір даних не знайдено</td><td style="text-align: left">1. Користувач логіниться, 2. шукає набір даних, 3. натискає "Переглянути"</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+
+|Користувач|
+start
+:відкриває інтерфейс перегляду наборів даних;
+:вибирає набір даних для перегляду;
+:відправляє запит на отримання даних;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - DataSetNotFoundException
+    - PermissionDeniedException
+end note
+
+|Система|
+:перевіряє наявність набору даних;
+:перевіряє права доступу;
+:отримує дані з бази;
+:відображає набір даних користувачеві;
+
+|Користувач|
+stop;
+@enduml
+</code></pre>
+<h3 id="uploaddataset"><a class="header" href="#uploaddataset">UploadDataSet</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">UploadDataSet</td><td style="text-align: left">Завантаження набору даних</td><td style="text-align: left">Data Contributor</td><td style="text-align: left">Користувач має права на завантаження даних</td><td style="text-align: left">Набір даних завантажено</td><td style="text-align: left">Недійсні дані, дублікат набору даних, помилка завантаження</td><td style="text-align: left">1. Користувач логіниться, 2. натискає кнопку "Завантажити набір даних", 3. вибирає файл для завантаження, 4. вводить метадані про набір даних, 5. натискає кнопку "Завантажити"</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+
+|Користувач|
+start
+:відкриває інтерфейс завантаження набору даних;
+:вводить метадані набору даних;
+:вибирає файл для завантаження;
+:відправляє запит на завантаження;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - InvalidDataException
+    - FileUploadException
+    - PermissionDeniedException
+end note
+
+|Система|
+:перевіряє формат та цілісність даних;
+:перевіряє права доступу;
+:зберігає набір даних у базі;
+:публікує набір даних для доступу користувачів;
+
+|Користувач|
+stop;
+@enduml
+</code></pre>
+<h3 id="validatedataset"><a class="header" href="#validatedataset">ValidateDataSet</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">ValidateDataSet</td><td style="text-align: left">Валідація набору даних</td><td style="text-align: left">Data Administrator, Data Contributor</td><td style="text-align: left">Користувач має права Data Administrator або Data Contributor</td><td style="text-align: left">Набір даних успішно перевірено на відповідність стандартам.</td><td style="text-align: left">Користувач не має прав для виконання операції. Набір даних не відповідає встановленим вимогам.</td><td style="text-align: left">1. Користувач ініціює перевірку набору даних через інтерфейс. 2. Система перевіряє набір даних на наявність помилок (формат, повнота даних, коректність значень). 3. У разі помилок система повідомляє користувача про виявлені проблеми. 4. Якщо перевірка пройшла успішно, система підтверджує, що набір даних є валідним.</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+
+|Користувач|
+start
+:відкриває інтерфейс перевірки набору даних;
+:вибирає набір даних для перевірки;
+:відправляє запит на перевірку набору даних;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - InvalidDataException
+    - DataIntegrityException
+end note
+
+|Система|
+:перевіряє формат набору даних;
+:перевіряє цілісність даних;
+:перевіряє відповідність вимогам;
+:повідомляє користувача про результат перевірки;
+
+|Користувач|
+stop;
+@enduml
+</code></pre>
+<h3 id="publishdataset"><a class="header" href="#publishdataset">PublishDataSet</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">PublishDataSet</td><td style="text-align: left">Публікація набору даних</td><td style="text-align: left">Data Administrator, Data Contributor</td><td style="text-align: left">Користувач має права Data Administrator або Data Contributor</td><td style="text-align: left">Набір даних успішно опубліковано та доступний для користувачів</td><td style="text-align: left">Користувач не має прав для виконання операції. Набір даних не відповідає вимогам публікації.</td><td style="text-align: left">1. Користувач ініціює публікацію. 2. Система перевіряє набір даних. 3. Якщо перевірка пройшла успішно, набір даних публікується.</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+
+|Користувач|
+start
+:відкриває інтерфейс публікації набору даних;
+:вибирає набір даних для публікації;
+:відправляє запит на публікацію;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - PermissionDeniedException
+    - DataSetNotFoundException
+end note
+
+|Система|
+:перевіряє наявність набору даних;
+:перевіряє права доступу користувача;
+:публікує набір даних для доступу користувачів;
+:оновлює статус набору даних;
+
+|Користувач|
+stop;
+@enduml
+</code></pre>
+<h3 id="downloaddataset"><a class="header" href="#downloaddataset">DownloadDataSet</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">DownloadDataSet</td><td style="text-align: left">Завантаження набору даних</td><td style="text-align: left">Data Consumer</td><td style="text-align: left">Користувач має права Data Consumer, набір даних доступний для завантаження</td><td style="text-align: left">Набір даних успішно завантажено на пристрій користувача</td><td style="text-align: left">Користувач не має прав для завантаження набору даних. Набір даних недоступний для завантаження. Проблеми з інтернет-з'єднанням.</td><td style="text-align: left">1. Користувач логіниться в систему. 2. Користувач шукає необхідний набір даних за допомогою пошуку або фільтрів. 3. Користувач натискає кнопку "Завантажити" для вибраного набору даних. 4. Система перевіряє доступність набору даних і дозволяє завантажити файл.</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+
+|Користувач|
+start
+:відкриває інтерфейс завантаження набору даних;
+:вибирає набір даних для завантаження;
+:відправляє запит на завантаження;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - DataSetNotFoundException
+    - PermissionDeniedException
+end note
+
+|Система|
+:перевіряє наявність набору даних;
+:перевіряє права доступу користувача;
+:генерує запит на завантаження файлу;
+:передає файл користувачеві;
+
+|Користувач|
+stop;
+@enduml
+</code></pre>
+<h3 id="addnewclient"><a class="header" href="#addnewclient">AddNewClient</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">AddNewClient</td><td style="text-align: left">Додавання нового клієнта</td><td style="text-align: left">Administrator, Система</td><td style="text-align: left">Користувач має права адміністратора або це автоматичний процес</td><td style="text-align: left">Клієнт успішно доданий</td><td style="text-align: left">Недійсні дані, клієнт вже існує</td><td style="text-align: left">1. Адміністратор відкриває форму додавання клієнта. 2. Вводить дані клієнта. 3. Підтверджує додавання. 4. Система створює нового користувача з роллю "Client".</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
+start
+:ініціює створення клієнта;
+:вводить дані клієнта;
+:надсилає запит на створення;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - PermissionDeniedException
+end note
+
+|Система|
+:перевіряє валідність;
+:створює обліковий запис;
+:призначає роль Client;
+stop
+@enduml
+</code></pre>
+<h3 id="deleteclient"><a class="header" href="#deleteclient">DeleteClient</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">DeleteClient</td><td style="text-align: left">Видалення клієнта</td><td style="text-align: left">Administrator, Система</td><td style="text-align: left">Клієнт існує</td><td style="text-align: left">Клієнта видалено</td><td style="text-align: left">Клієнт не знайдений, недостатньо прав</td><td style="text-align: left">1. Адміністратор знаходить клієнта. 2. Вибирає опцію "Видалити". 3. Підтверджує видалення. 4. Система видаляє користувача з бази.</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
+start
+:вибирає клієнта для видалення;
+:ініціює процес видалення;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - PermissionDeniedException
+end note
+
+|Система|
+:перевіряє наявність клієнта;
+:видаляє обліковий запис клієнта;
+:оновлює список користувачів;
+stop
+@enduml
+</code></pre>
+<h3 id="addnewadministrator"><a class="header" href="#addnewadministrator">AddNewAdministrator</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">AddNewAdministrator</td><td style="text-align: left">Призначення нового адміністратора</td><td style="text-align: left">Administrator</td><td style="text-align: left">Користувач має роль "Client"</td><td style="text-align: left">Користувач стає адміністратором</td><td style="text-align: left">Недостатньо прав, користувач не знайдений</td><td style="text-align: left">1. Адміністратор знаходить клієнта. 2. Вибирає "Призначити адміністратором". 3. Система оновлює роль користувача.</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
+start
+:вибирає користувача;
+:ініціює підвищення прав;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - PermissionDeniedException
+end note
+
+|Система|
+:перевіряє поточну роль користувача;
+:призначає роль Адміністратор;
+stop
+@enduml
+</code></pre>
+<h3 id="addnewcontributer"><a class="header" href="#addnewcontributer">AddNewContributer</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">AddNewContributer</td><td style="text-align: left">Призначення нового контриб’ютора</td><td style="text-align: left">Administrator, Система</td><td style="text-align: left">Користувач має роль "Client"</td><td style="text-align: left">Користувач стає контриб’ютором</td><td style="text-align: left">Недостатньо прав, користувач не знайдений</td><td style="text-align: left">1. Адміністратор або система знаходить клієнта. 2. Вибирає "Призначити контриб’ютором". 3. Система оновлює роль користувача.</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
+start
+:вибирає користувача;
+:ініціює надання ролі контриб'ютера;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - PermissionDeniedException
+end note
+
+|Система|
+:перевіряє поточну роль користувача;
+:призначає роль Data Contributor;
+stop
+@enduml
+</code></pre>
+<h3 id="finddataset"><a class="header" href="#finddataset">FindDataSet</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">FindDataSet</td><td style="text-align: left">Пошук датасетів</td><td style="text-align: left">Усі актори</td><td style="text-align: left">-</td><td style="text-align: left">Список датасетів знайдено</td><td style="text-align: left">Немає доступу, помилки з’єднання</td><td style="text-align: left">1. Користувач відкриває інтерфейс пошуку. 2. Вводить критерії. 3. Отримує результати пошуку.</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
+start
+:вводить параметри пошуку;
+:ініціює пошук;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - DataSetNotFoundException
+    - InvalidDataException
+end note
+
+|Система|
+:виконує пошук по базі даних;
+:повертає список відповідних наборів;
+stop
+@enduml
+</code></pre>
+<h3 id="findclient"><a class="header" href="#findclient">FindClient</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">FindClient</td><td style="text-align: left">Пошук клієнта</td><td style="text-align: left">Усі актори</td><td style="text-align: left">-</td><td style="text-align: left">Клієнт знайдений</td><td style="text-align: left">Клієнт не знайдений</td><td style="text-align: left">1. Користувач відкриває інтерфейс пошуку користувачів. 2. Вводить ім’я або інші критерії. 3. Система повертає результат.</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
+start
+:вводить ім’я або інші параметри клієнта;
+:ініціює пошук;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - DataSetNotFoundException
+    - InvalidDataException
+end note
+
+|Система|
+:виконує пошук клієнтів;
+:повертає результати;
+stop
+@enduml
+</code></pre>
+<h3 id="findcontributer"><a class="header" href="#findcontributer">FindContributer</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">FindContributer</td><td style="text-align: left">Пошук контриб’ютора</td><td style="text-align: left">Усі актори</td><td style="text-align: left">-</td><td style="text-align: left">Контриб’ютор знайдений</td><td style="text-align: left">Користувача не знайдено</td><td style="text-align: left">1. Користувач вводить критерії пошуку. 2. Система повертає список відповідних користувачів з роллю "Contributor".</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
+start
+:запитує список контриб'ютерів;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - DataSetNotFoundException
+    - InvalidDataException
+end note
+
+|Система|
+:фільтрує користувачів за роллю Data Contributor;
+:повертає результати;
+stop
+@enduml
+</code></pre>
+<h3 id="findadministrator"><a class="header" href="#findadministrator">FindAdministrator</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">FindAdministrator</td><td style="text-align: left">Пошук адміністратора</td><td style="text-align: left">Усі актори</td><td style="text-align: left">-</td><td style="text-align: left">Адміністратор знайдений</td><td style="text-align: left">Користувача не знайдено</td><td style="text-align: left">1. Користувач шукає за роллю "Administrator". 2. Система повертає відповідних користувачів.</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
+start
+:запитує список адміністраторів;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - InvalidDataException
+    - DataSetNotFoundException
+end note
+
+|Система|
+:фільтрує користувачів за роллю Administrator;
+:повертає результати;
+stop
+@enduml
+</code></pre>
+<h3 id="findvalidateddataset"><a class="header" href="#findvalidateddataset">FindValidatedDataSet</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">ID</th><th style="text-align: left">Назва</th><th style="text-align: left">Учасники</th><th style="text-align: left">Передумови</th><th style="text-align: left">Результат</th><th style="text-align: left">Виключні ситуації</th><th style="text-align: left">Основний сценарій</th></tr></thead><tbody>
+<tr><td style="text-align: left">FindValidatedDataSet</td><td style="text-align: left">Пошук валідованих датасетів</td><td style="text-align: left">Усі актори</td><td style="text-align: left">-</td><td style="text-align: left">Список валідованих датасетів знайдено</td><td style="text-align: left">Немає валідованих даних, помилка фільтрації</td><td style="text-align: left">1. Користувач відкриває інтерфейс пошуку. 2. Встановлює фільтр "Валідовані". 3. Система повертає відповідні набори даних.</td></tr>
+</tbody></table>
+</div>
+<pre><code>@startuml
+skinparam ActivityBackgroundColor #f5f5f5
+|Користувач|
+start
+:ініціює запит на валідовані набори даних;
+
+note right #d10000
+&lt;b&gt;Possible error:
+    - InvalidDataExpception
+    - DataSetNotFoundException
+end note
+
+|Система|
+:фільтрує набори даних за статусом "валідований";
+:повертає результати;
+stop
+@enduml
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Проєктування-бази-даних"><a class="header" href="#Проєктування-бази-даних">Проєктування бази даних</a></h1>
+<h2 id="Модель-бізнес-обєктів"><a class="header" href="#Модель-бізнес-обєктів">Модель бізнес-об'єктів</a></h2>
+<p><strong>Модель бізнес-об'єктів</strong> — це опис системи, в якій відображаються всі об'єкти даної системи</p>
+<p><strong>Dataset:</strong> Основна сутність, що представляє актив відкритих даних.</p>
+<p><strong>DataResource:</strong> Файл або ресурс, пов'язаний з набором даних.</p>
+<p><strong>Organization</strong> Організація (державна установа, компанія тощо), яка володіє або публікує набори даних.</p>
+<p><strong>User:</strong> користувач платформи з певною роллю.</p>
+<p><strong>Tag:</strong> Ключові слова або теми, присвоєні наборам даних.</p>
+<p><strong>Category:</strong> Класифікація високого рівня (наприклад, охорона здоров'я, транспорт).</p>
+<p><strong>AccessLog:</strong> Записи про взаємодію користувача з наборами даних.</p>
+<pre><code>@startuml
+title Business Entity Model: Open Data Management Service
+
+' Gruvbox Light theme visual tweaks
+skinparam style strictuml
+skinparam roundCorner 0
+skinparam shadowing false
+skinparam backgroundColor #fbf1c7
+skinparam classBackgroundColor #ebdbb2
+skinparam classBorderColor #d79921
+skinparam ClassAttributeFontColor #5a564a
+skinparam classBorderThickness 0
+skinparam classFontColor #61440e
+skinparam classFontSize 14
+skinparam classAttributeIconSize 0
+skinparam ArrowColor #5a564a
+skinparam ArrowFontColor #5a564a
+skinparam linetype ortho
+skinparam classHeaderBackgroundColor #d79921
+
+class Dataset {
+  +**id**: UUID
+  +**title**: String
+  +**description**: String
+  +**createdAt**: DateTime
+  +**updatedAt**: DateTime
+  +**format**: String
+  +**license**: String
+  +**status**: DatasetStatus
+}
+
+enum DatasetStatus {
+  Draft
+  Published
+  Archived
+}
+
+class Organization {
+  +**id**: UUID
+  +**name**: String
+  +**description**: String
+  +**contactEmail**: String
+  +**website**: String
+}
+
+class User {
+  +**id**: UUID
+  +**username**: String
+  +**email**: String
+  +**role**: UserRole
+}
+
+enum UserRole {
+  Admin
+  Publisher
+  Viewer
+}
+
+class DataResource {
+  +**id**: UUID
+  +**fileName**: String
+  +**fileType**: String
+  +**size**: Integer
+  +**url**: String
+  +**uploadedAt**: DateTime
+}
+
+class Tag {
+  +**id**: UUID
+  +**name**: String
+}
+
+class Category {
+  +**id**: UUID
+  +**name**: String
+}
+
+class AccessLog {
+  +**id**: UUID
+  +**userId**: UUID
+  +**datasetId**: UUID
+  +**accessedAt**: DateTime
+  +**action**: String
+}
+
+Dataset "1" -- "1..*" DataResource : contains &gt;
+Dataset "1" -- "0..*" Tag : tagged with &gt;
+Dataset "1" -- "1" Organization : owned by &gt;
+Dataset "1" -- "1" Category : classified in &gt;
+Dataset "0..*" -- "1" User : published by &gt;
+User "1" -- "0..*" AccessLog : has &gt;
+Dataset "1" -- "0..*" AccessLog : accessed in &gt;
+@enduml
+</code></pre>
+<p><img src="use_case_diagrams/business_entity_model.png" alt="alt text" /></p>
+<h2 id="er-модель"><a class="header" href="#er-модель">ER-модель</a></h2>
+<p><strong>ER-модель</strong> — це опис об'єктів системи та їх зв'язків</p>
+<pre><code>@startuml
+title ER Model - Open Data Management Service
+
+' Gruvbox Light theme visual tweaks
+skinparam style strictuml
+skinparam roundCorner 0
+skinparam shadowing false
+skinparam backgroundColor #fbf1c7
+skinparam classBackgroundColor #ebdbb2
+skinparam classBorderColor #d79921
+skinparam ClassAttributeFontColor #5a564a
+skinparam classBorderThickness 0
+skinparam classFontColor #61440e
+skinparam classFontSize 14
+skinparam classAttributeIconSize 0
+skinparam ArrowColor #5a564a
+skinparam ArrowFontColor #5a564a
+skinparam linetype ortho
+skinparam classHeaderBackgroundColor #d79921
+
+' Enums
+enum DatasetStatus {
+  Draft
+  Published
+  Archived
+}
+
+enum UserRole {
+  Admin
+  Publisher
+  Viewer
+}
+
+' Entities
+class Dataset {
+  +**id**: UUID
+  +**title**: String
+  +**description**: String
+  +**createdAt**: DateTime
+  +**updatedAt**: DateTime
+  +**format**: String
+  +**license**: String
+  +**status**: DatasetStatus
+}
+
+class DataResource {
+  +**id**: UUID
+  +**fileName**: String
+  +**fileType**: String
+  +**size**: Integer
+  +**url**: String
+  +**uploadedAt**: DateTime
+}
+
+class Organization {
+  +**id**: UUID
+  +**name**: String
+  +**description**: String
+  +**contactEmail**: String
+  +**website**: String
+}
+
+class User {
+  +**id**: UUID
+  +**username**: String
+  +**email**: String
+  +**role**: UserRole
+}
+
+class Tag {
+  +**id**: UUID
+  +**name**: String
+}
+
+class Category {
+  +**id**: UUID
+  +**name**: String
+}
+
+class AccessLog {
+  +**id**: UUID
+  +**accessedAt**: DateTime
+  +**action**: String
+}
+
+' Relationships
+Dataset "1" -- "1..*" DataResource : has &gt;
+Dataset "1" -- "0..*" Tag : tagged with &gt;
+Dataset "1" -- "1" Organization : owned by &gt;
+Dataset "1" -- "1" Category : classified in &gt;
+Dataset "0..*" -- "1" User : published by &gt;
+User "1" -- "0..*" AccessLog : makes &gt;
+Dataset "1" -- "0..*" AccessLog : accessed in &gt;
+
+@enduml
+</code></pre>
+<p><img src="use_case_diagrams/entity_relationship_model.png" alt="alt text" /></p>
+<h2 id="Реляційня-схема"><a class="header" href="#Реляційня-схема">Реляційня схема</a></h2>
+<p><strong>Реляційна схема</strong> — це формальне представлення структури бази даних у вигляді набору таблиць (реляцій), які описують зв’язки між різними сутностями та їх атрибутами.</p>
+<pre><code>@startuml
+title Relational Schema - Open Data Management Service
+
+' Gruvbox Light theme visual tweaks
+skinparam style strictuml
+skinparam roundCorner 0
+skinparam shadowing false
+skinparam backgroundColor #fbf1c7
+skinparam classBackgroundColor #ebdbb2
+skinparam classBorderColor #d79921
+skinparam ClassAttributeFontColor #5a564a
+skinparam classBorderThickness 0
+skinparam classFontColor #61440e
+skinparam classFontSize 14
+skinparam classAttributeIconSize 0
+skinparam ArrowColor #5a564a
+skinparam ArrowFontColor #5a564a
+skinparam linetype ortho
+skinparam classHeaderBackgroundColor #d79921
+
+' ENUMS
+enum DatasetStatus {
+  Draft
+  Published
+  Archived
+}
+
+enum UserRole {
+  Admin
+  Publisher
+  Viewer
+}
+
+' ========== TABLES ==========
+class Dataset {
+  +PK **id**: UUID
+  +**title**: String
+  +**description**: Text
+  +**created_at**: DateTime
+  +**updated_at**: DateTime
+  +**format**: String
+  +**license**: String
+  +**status**: DatasetStatus
+  +FK **organization_id**: UUID
+  +FK **category_id**: UUID
+  +FK **user_id**: UUID
+}
+
+class DataResource {
+  +PK **id**: UUID
+  +**file_name**: String
+  +**file_type**: String
+  +**size**: Integer
+  +**url**: String
+  +**uploaded_at**: DateTime
+  +FK **dataset_id**: UUID
+}
+
+class Organization {
+  +PK **id**: UUID
+  +**name**: String
+  +**description**: Text
+  +**contact_email**: String
+  +**website**: String
+}
+
+class User {
+  +PK **id**: UUID
+  +**username**: String
+  +**email**: String
+  +**role**: UserRole
+}
+
+class Tag {
+  +PK **id**: UUID
+  +**name**: String
+}
+
+class Category {
+  +PK **id**: UUID
+  +**name**: String
+}
+
+class AccessLog {
+  +PK **id**: UUID
+  +**accessed_at**: DateTime
+  +**action**: String
+  +FK **user_id**: UUID
+  +FK **dataset_id**: UUID
+}
+
+class DatasetTag {
+  +PK **dataset_id**: UUID
+  +PK **tag_id**: UUID
+}
+
+' ========== RELATIONSHIPS ==========
+Dataset "1" -- "0..*" DataResource : has &gt;
+Dataset "1" -- "0..*" DatasetTag : uses &gt;
+Tag "1" -- "0..*" DatasetTag : used in &gt;
+Dataset "1" -- "0..*" AccessLog : accessed in &gt;
+User "1" -- "0..*" AccessLog : makes &gt;
+Dataset "1" -- "1" Organization : owned by &gt;
+Dataset "1" -- "1" Category : classified in &gt;
+Dataset "1" -- "1" User : published by &gt;
+
+@enduml
+</code></pre>
+<p><img src="use_case_diagrams/relational_scheme.png" alt="alt text" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Реалізація-інформаційного-та-програмного-забезпечення"><a class="header" href="#Реалізація-інформаційного-та-програмного-забезпечення">Реалізація інформаційного та програмного забезпечення</a></h1>
+<p>В рамках проекту розробляється:</p>
+<ul>
+<li>SQL-скрипт для створення на початкового наповнення бази даних</li>
+<li>RESTfull сервіс для управління даними</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Тестування-працездатності-системи"><a class="header" href="#Тестування-працездатності-системи">Тестування працездатності системи</a></h1>
+<p><em>В цьому розділі необхідно вказати засоби тестування, навести вихідні коди тестів та результати тестування.</em></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="Висновки-2"><a class="header" href="#Висновки-2">Висновки</a></h1>
+<p>У висновках наводять оцінку отриманих результатів, можливі галузі його використання. Висновки повинні містити в собі коротку узагальнену оцінку результатів розробки, у
+тому числі і з погляду на їх технічно-економічну ефективність. Необхідно порівняти
+отримані результати усіх характеристик об’єкта проєктування із завданням і з основними показниками сучасних аналогічних об’єктів.</p>
+<p>Необхідно вказати яке нове технічне рішення покладене в основу проєкту і у чому її
+переваги, що нового було запропоновано самим студентом.</p>
+<p>На базі отриманих висновків можуть надаватися рекомендації по використанню розробки. Вони повинні
+мати конкретний характер і бути цілком підтверджені проєктом.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
