@@ -13,8 +13,6 @@ footer: "ECL 2.0 Licensed | Copyright © [YYYY] [Your Name]"
 
 *студент 2-го курсу, групи ІО-35*<span padding-right:5em></span> **Владислав Сухомлін tg:@rgd006**
 
-*студент 2-го курсу, групи ІО-35*<span padding-right:5em></span> **Денис Перцов tg:@kepkaguess**
-
 **Керівник**
 
 *доцент кафедри ОТ ФІОТ, к.т.н., доцент*<span padding-right:5em></span> **Андрій БОЛДАК** 

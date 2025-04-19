@@ -114,7 +114,7 @@ Dataset "1" -- "0..*" AccessLog : accessed in >
 @enduml
 ```
 
-![alt text](business_entity_model.png)
+![alt text](use_case_diagrams/business_entity_model.png)
 
 ## ER-модель
 
@@ -218,7 +218,7 @@ Dataset "1" -- "0..*" AccessLog : accessed in >
 @enduml
 ```
 
-![alt text](entity_relationship_model.png)
+![alt text](use_case_diagrams/entity_relationship_model.png)
 
 ## Реляційня схема
 
@@ -334,4 +334,4 @@ Dataset "1" -- "1" User : published by >
 @enduml
 ```
 
-![alt text](relational_scheme.png)
+![alt text](use_case_diagrams/relational_scheme.png)
